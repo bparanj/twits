@@ -7,21 +7,11 @@ describe "Twitter User" do
       @user = User.new
       @user.twitter_username = 'logosity'
     end
-    
+    # The test now depends on our API fetch_tweets in our Twits Twitter client class
+    # This is stable than directly depending on a third party API.
     it "provides the last five tweets from twitter" do
-      tweets = [
-        {text: 'tweet1'},
-        {text: 'tweet2'},
-        {text: 'tweet3'},
-        {text: 'tweet4'},
-        {text: 'tweet5'},
-        ]
-      
-      mock_client = mock('client')
-      mock_client.should_receive(:per_page).with(5).and_return(mock_client)
-      mock_client.should_receive(:from).with('logosity').and_return(tweets)
-      Twitter::Search.should_receive(:new).and_return(mock_client)
-      
+      tweets = %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
+      Twits.stub(:fetch_tweets).and_return(tweets)
       @user.last_five_tweets.should == %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
     end
     
