@@ -12,6 +12,6 @@ class Twits
   def fetch_five(username)
     @client.per_page(5).from(username).map do |tweet|
       tweet[:text]
-    end.to_a    
+    end
   end
 end
